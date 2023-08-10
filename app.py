@@ -82,6 +82,7 @@ def create_answers_section(df):
 
 def create_main_layout():
     df = load_data()
+    df = df.dropna()
 
     create_dataframe_section(df)
 
