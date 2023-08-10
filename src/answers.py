@@ -3,6 +3,7 @@ from io import BytesIO
 import pandas as pd
 import plotly.express as px
 import streamlit as st
+import xlsxwriter
 
 
 def rd1_question_9(df):
@@ -261,15 +262,14 @@ def rd3_question_7(df):
 def to_excel(df):
     output = BytesIO()
 
-    writer = pd.ExcelWriter(output, engine="xlsxwriter")
+    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
 
-    df.to_excel(writer, index=False, sheet_name="Sheet1")
-
-    worksheet = writer.sheets["Sheet1"]
+    df.to_excel(output, index=False, sheet_name="Sheet1", engine="xlsxwriter")
 
     worksheet.set_column("A:A", None)
 
-    writer.save()
+    workbook.close()
 
     processed_data = output.getvalue()
 
